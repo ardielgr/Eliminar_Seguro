@@ -21,9 +21,17 @@ public class Sec_Eraser {
 	/**
 	 * @param args
 	 */
-	public static void main(String args) {
+	public static void main(RandomAccessFile args) {
 		// TODO Auto-generated method stub
-				Apertura(args);
+		//cambiar args a randomaccessfile
+		
+		try {
+			Apertura A = new Apertura(args);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				//Apertura(args);
       
 
 }
