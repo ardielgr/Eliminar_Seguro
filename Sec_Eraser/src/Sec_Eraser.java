@@ -81,15 +81,6 @@ class Sec_Eraser {
 			 return;
 		 }
 		 
-/*		
-		try {
-			Apertura A = new Apertura(args);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	*/
 }
 
 class Apertura {
