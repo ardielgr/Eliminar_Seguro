@@ -52,7 +52,7 @@ class Sec_Eraser {
 				//En teoria se deberia poder hacer con la misma variable
 				linea2 = linea.replace(" ", "");
 				fichero_.seek(index);
-				fichero_.writeChars(linea2);
+				fichero_.write(linea2.getBytes());
 				//fichero_.writeChars("\n\r");
 				index++;
 			} while ((fichero_.readLine()) != null);
