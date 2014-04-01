@@ -1,4 +1,6 @@
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.Random;
 
 
@@ -30,19 +32,29 @@ class Sec_Eraser {
 		int index = 0;
 		fichero_.seek(index);
 		int valor_linea;
-		String linea;
+		String linea, linea2;
 		Random rnd = new Random(System.currentTimeMillis());
+		String cadena = new String();
+		
 		int ary;
 		try{
 			do{
 				linea = fichero_.readLine();
 				valor_linea = linea.length();
-				for (int i = 0; i<valor_linea; i++){
-				//	linea[i] = "a";
-				//	linea[i] = (char) rnd.nextInt();
+				//For donde altero uno a uno los valores del string de forma aleatoria
+				for (int i = 0; i<=valor_linea; i++){
+					cadena = cadena +"a";
+					//linea = cadena.toString();
+				    
+				    //System.out.println(linea);
 				}
+				linea = cadena.toString();
+				//En teoria se deberia poder hacer con la misma variable
+				linea2 = linea.replace(" ", "");
 				fichero_.seek(index);
-				fichero_.writeChars("linea");
+				fichero_.writeChars(linea2);
+				//fichero_.writeChars("\n\r");
+				index++;
 			} while ((fichero_.readLine()) != null);
 		}
 		catch(IOException e){
@@ -51,21 +63,12 @@ class Sec_Eraser {
 		}
 	}
 
-
-
 	public static void main(String[] args) throws FileNotFoundException {
 		
 		Sec_Eraser Borrado = new Sec_Eraser(args[0]);
 		try{
-		//	System.out.println("Lala");
 			Borrado.OpenFile();
 			Borrado.Change();
-		//	System.out.println("Lele");
-			//fichero_ = new RandomAccessFile(args[0], "rw");
-			
-//			fichero_ = new RandomAccessFile(args[0], "rw");
-		//	fichero_.seek(0);
-			//System.out.println(fichero_.readLine());
 		}
 		catch (IOException e){
 			System.out.println("Error con el fichero");
@@ -81,18 +84,6 @@ class Sec_Eraser {
 			 return;
 		 }
 		 
-}
-
-class Apertura {
-	
-	public Apertura(RandomAccessFile fichero) throws IOException{
-        fichero.seek(0);
-        while ((fichero.readLine()) !=null)
-        	System.out.println(fichero.readLine());    
 	}
-	
+
 }
-}
-
-
-
