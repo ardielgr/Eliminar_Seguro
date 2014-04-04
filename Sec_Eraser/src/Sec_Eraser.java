@@ -9,7 +9,7 @@ class Sec_Eraser {
 	
 	String variable_;
 	static RandomAccessFile fichero_;
-    
+    static String[][] buffer;
 	public Sec_Eraser(String arg) throws FileNotFoundException {
 		variable_ = arg;
 		fichero_ = new RandomAccessFile(variable_, "rw");
@@ -48,6 +48,26 @@ class Sec_Eraser {
 			return -1;
 		}
 		return num_linea;
+	}
+	
+	public static void FileDump() throws IOException{
+		String linea;
+		int num_lineas = NumLineas();
+		fichero_.seek(0);
+		long cont = 0;
+		try{
+			do{
+				linea = fichero_.readLine();
+				buffer[(int) cont][0] = linea;
+				//Pasar de int a string y luego de string a int?
+				//buffer[(int) cont][1] = num_lineas;
+				cont++;
+			}while ((fichero_.readLine()) != null);
+		}
+		catch(IOException e){
+			System.out.println("Error con el fichero");
+			return;
+		}
 	}
 	
 	public void Change() throws IOException{
