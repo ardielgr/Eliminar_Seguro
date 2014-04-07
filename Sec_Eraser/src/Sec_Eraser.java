@@ -2,6 +2,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Random;
+import java.util.ArrayList; 
 
 
 
@@ -10,6 +11,7 @@ class Sec_Eraser {
 	String variable_;
 	static RandomAccessFile fichero_;
     static String[][] buffer;
+    static ArrayList<String> buffer2 = new ArrayList<String>();
 	public Sec_Eraser(String arg) throws FileNotFoundException {
 		variable_ = arg;
 		fichero_ = new RandomAccessFile(variable_, "rw");
@@ -50,18 +52,14 @@ class Sec_Eraser {
 		return num_linea;
 	}
 	
-	public static void FileDump() throws IOException{
+	public void FileDump() throws IOException{
 		String linea;
 		int num_lineas = NumLineas();
 		fichero_.seek(0);
-		long cont = 0;
 		try{
 			do{
 				linea = fichero_.readLine();
-				buffer[(int) cont][0] = linea;
-				//Pasar de int a string y luego de string a int?
-				//buffer[(int) cont][1] = num_lineas;
-				cont++;
+				buffer2.add(linea);
 			}while ((fichero_.readLine()) != null);
 		}
 		catch(IOException e){
@@ -84,9 +82,20 @@ class Sec_Eraser {
 		System.out.println("el numero de lineas es "+num_linea);
 		fichero_.seek(0);
 		try{
-			do{
-				
-				linea = fichero_.readLine();
+		//	do{
+				for (int j = 0 ; j < buffer2.size() ; j++){ 
+					linea = buffer2.get(j);
+					valor_linea = linea.length();
+					for (int i = 0; i<valor_linea; i++){
+						aux_random = Random (MIN,MAX);
+						cadena = cadena + (char)aux_random;
+					}
+					cadena = cadena.toString();
+					fichero_.writeBytes(cadena);
+					linea2 = System.setProperty( "line.separator", "\n" );
+					fichero_.write(linea2.getBytes());
+				} 
+/*				linea = fichero_.readLine();
 				valor_linea = linea.length();
 				System.out.println(valor_linea);
 				//For donde altero uno a uno los valores del string de forma aleatoria
@@ -105,8 +114,8 @@ class Sec_Eraser {
 				//fichero_.write("hola".getBytes());
 			    //fichero_.write('\r');
 				//fichero_.writeChars("\n\r");
-				index = linea.length();
-			} while ((fichero_.readLine()) != null);
+				index = linea.length();  */
+	//		} while ((fichero_.readLine()) != null);
 		}
 		catch(IOException e){
 			System.out.println("Error con el fichero");
@@ -117,8 +126,11 @@ class Sec_Eraser {
 	public static void main(String[] args) throws FileNotFoundException {
 		
 		Sec_Eraser Borrado = new Sec_Eraser(args[0]);
+		
 		try{
+			
 			Borrado.OpenFile();
+			Borrado.FileDump();
 			Borrado.Change();
 		}
 		catch (IOException e){
