@@ -14,8 +14,7 @@ class Sec_Eraser {
 	
 	String variable_;
 	static RandomAccessFile fichero_;
-    static String[][] buffer;
-    static ArrayList<String> buffer2 = new ArrayList<String>();
+    static ArrayList<String> buffer = new ArrayList<String>();
 	public Sec_Eraser(String arg) throws FileNotFoundException {
 		variable_ = arg;
 		fichero_ = new RandomAccessFile(variable_, "rw");
@@ -23,6 +22,7 @@ class Sec_Eraser {
 	
 	public void OpenFile() throws IOException{
 		try{
+			
 			do {
 				System.out.println(fichero_.readLine());
 			}	while ((fichero_.readLine()) !=null);
@@ -61,33 +61,33 @@ class Sec_Eraser {
 	}
 	
 	public void FileDump() throws IOException{
-		String linea;
-		linea = fichero_.readLine();
-		while( linea != null )
+		String line;
+		line = fichero_.readLine();
+		while( line != null )
 		{
-			System.out.println(linea);
+			System.out.println(line);
 			System.out.println("----------");
-			buffer2.add(linea);
-			linea = fichero_.readLine();
+			buffer.add(line);
+			line = fichero_.readLine();
 		}
 	}
 	
 	public void Change() throws IOException{
-		int valor_linea;
-		String linea, linea2;
+		int line_value;
+		String line, line2;
 		String cadena = new String();
 		fichero_.seek(0);
 		try{
-			int numero = buffer2.size();
+			int numero = buffer.size();
 			System.out.println(numero + "el numero de filas que tiene el buffer");
-			for (int j = 0 ; j < buffer2.size() ; j++){ 
-				linea = buffer2.get(j);
-			valor_linea = linea.length();
-			System.out.println(valor_linea);
-			for( int i = 0 ; i < valor_linea ; i++ )
+			for (int j = 0 ; j < buffer.size() ; j++){ 
+				line = buffer.get(j);
+			line_value = line.length();
+			System.out.println(line_value);
+			for( int i = 0 ; i < line_value ; i++ )
 				cadena += getRandomChar();
-				linea2 = System.getProperty("line.separator");
-				cadena += linea2;
+				line2 = System.getProperty("line.separator");
+				cadena += line2;
 				cadena = cadena.toString();
 				fichero_.writeBytes(cadena);
 				cadena = "";
@@ -101,12 +101,17 @@ class Sec_Eraser {
 	}
 
 	public static void main( String[] args ) throws FileNotFoundException {
+		for (int i = 0 ; i <7 ; i++){
 		Sec_Eraser Eraser = new Sec_Eraser(args[0]);
 		try{
+			
 			//Eraser.OpenFile();
-			Eraser.FileDump();
-			Eraser.Change();
-		}
+				System.out.println("el valor de i ->"+i);
+				Eraser.FileDump();
+				Eraser.Change();
+				
+			}
+		
 		catch (IOException e){
 			System.out.println("Error con el fichero");
 			return;
@@ -117,6 +122,7 @@ class Sec_Eraser {
 		catch (IOException e){
 			System.out.println("No se puede cerrar el fichero");
 			return;
+		}
 		}
 	}
 }
