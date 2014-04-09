@@ -72,7 +72,7 @@ class Sec_Eraser {
 		}
 	}
 	
-	public void Change() throws IOException{
+	public void RandomChange() throws IOException{
 		int line_value;
 		String line, line2;
 		String cadena = new String();
@@ -100,29 +100,57 @@ class Sec_Eraser {
 		}
 	}
 
-	public static void main( String[] args ) throws FileNotFoundException {
-		for (int i = 0 ; i <7 ; i++){
-		Sec_Eraser Eraser = new Sec_Eraser(args[0]);
+	public void RowChange() throws IOException{
+		int line_value;
+		int min_aux = 0;
+		int max_aux;
+		int ran_num = 0;
+		String line, line2;
+		ArrayList<String> buffer_aux = new ArrayList<String>();
+		String cadena = new String();
+		fichero_.seek(0);
 		try{
-			
-			//Eraser.OpenFile();
-				System.out.println("el valor de i ->"+i);
-				Eraser.FileDump();
-				Eraser.Change();
-				
+			max_aux = buffer.size();
+			line2 = System.getProperty("line.separator");
+			int j = 0;
+			while (j != buffer.size()){
+				ran_num = Random(min_aux, max_aux-1);
+				line = buffer.get(ran_num);
+				line += line2;
+				fichero_.writeBytes(line);						
+				j++;
 			}
-		
-		catch (IOException e){
+			fichero_.close();
+		}
+		catch(IOException e){
 			System.out.println("Error con el fichero");
 			return;
 		}
-		try{
-			fichero_.close();
-		}
-		catch (IOException e){
-			System.out.println("No se puede cerrar el fichero");
-			return;
-		}
-		}
+	}
+	
+	
+	public static void main( String[] args ) throws FileNotFoundException {
+	//	for (int i = 0 ; i <7 ; i++){
+			Sec_Eraser Eraser = new Sec_Eraser(args[0]);
+			try{
+		//		System.out.println("el valor de i ->"+i);
+				Eraser.FileDump();
+				Eraser.RowChange();
+				
+			}
+		
+			catch (IOException e){
+				System.out.println("Error con el fichero");
+				return;
+			}
+			try{
+				fichero_.close();
+			}
+			
+			catch (IOException e){
+				System.out.println("No se puede cerrar el fichero");
+				return;
+			}
+		//}
 	}
 }
