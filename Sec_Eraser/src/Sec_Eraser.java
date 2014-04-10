@@ -1,10 +1,9 @@
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 import java.util.Random;
-import java.util.ArrayList; 
-
-
 
 
 class Sec_Eraser {
@@ -19,6 +18,7 @@ class Sec_Eraser {
 		variable_ = arg;
 		fichero_ = new RandomAccessFile(variable_, "rw");
 	}
+	
 	
 	public void OpenFile() throws IOException{
 		try{
@@ -82,10 +82,10 @@ class Sec_Eraser {
 			System.out.println(numero + "el numero de filas que tiene el buffer");
 			for (int j = 0 ; j < buffer.size() ; j++){ 
 				line = buffer.get(j);
-			line_value = line.length();
-			System.out.println(line_value);
-			for( int i = 0 ; i < line_value ; i++ )
-				cadena += getRandomChar();
+				line_value = line.length();
+				System.out.println(line_value);
+				for( int i = 0 ; i < line_value ; i++ )
+					cadena += getRandomChar();
 				line2 = System.getProperty("line.separator");
 				cadena += line2;
 				cadena = cadena.toString();
@@ -99,15 +99,15 @@ class Sec_Eraser {
 			return;
 		}
 	}
-
+	
+	/*
+	 * Cambia las columnas del fichero de forma aleatoria
+	 */
 	public void RowChange() throws IOException{
-		int line_value;
 		int min_aux = 0;
 		int max_aux;
 		int ran_num = 0;
 		String line, line2;
-		ArrayList<String> buffer_aux = new ArrayList<String>();
-		String cadena = new String();
 		fichero_.seek(0);
 		try{
 			max_aux = buffer.size();
@@ -128,14 +128,51 @@ class Sec_Eraser {
 		}
 	}
 	
+	/*
+	 * Intercambia las columnas y las letras entre las columnas de forma aleatoria
+	 */
+	public void RowColChange() throws IOException{
+		String line, line2;
+		char interchange;
+		fichero_.seek(0);
+		try{
+			//int max_aux = buffer.size();
+			int j = 0;
+			while( j != buffer.size()){
+				line = buffer.get(j);
+				int ran_num = Random(0, buffer.size()-1);
+				line2 = buffer.get(ran_num);
+				int size_line = line.length();
+				int size_line2 = line2.length();
+				int min = Math.min(size_line, size_line2);
+				int ran_col = Random(0,min);
+				//interchange = line(ran_col);
+				
+				
+				
+				
+			}
+			fichero_.close();
+		}
+		catch(IOException e){
+			System.out.println("RowColChange Error");
+			return;
+		}
+		
+	}
+	
+	
+	
 	
 	public static void main( String[] args ) throws FileNotFoundException {
-	//	for (int i = 0 ; i <7 ; i++){
+		String argue;
+		argue = args[0];
+		for (int i = 0 ; i <7 ; i++){
 			Sec_Eraser Eraser = new Sec_Eraser(args[0]);
 			try{
 		//		System.out.println("el valor de i ->"+i);
 				Eraser.FileDump();
-				Eraser.RowChange();
+				Eraser.RandomChange();
 				
 			}
 		
@@ -151,6 +188,8 @@ class Sec_Eraser {
 				System.out.println("No se puede cerrar el fichero");
 				return;
 			}
-		//}
+		}
+		File file = new File(argue);  
+		file.delete();  
 	}
 }
